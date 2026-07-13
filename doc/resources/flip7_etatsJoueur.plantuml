@@ -1,0 +1,30 @@
+@startuml flip7_etatsJoueur
+skinparam state {
+    BackgroundColor lightyellow
+    BorderColor black
+    ArrowColor #444
+    FontSize 13
+}
+skinparam note {
+    BackgroundColor #ffffcc
+    BorderColor #aaa
+}
+
+state "JOUE_ENCORE" as JE
+state "STOP"        as ST
+state "PERDU"       as PE
+
+[*] -down-> JE : new Flip7(...)
+
+' ─── depuis JOUE_ENCORE ────────────────────────────────────────
+JE -right-> ST : joueurCourantDitStop()\n[ce joueur est joueurCourant]
+
+JE -down-> ST  : joueurCourantCibleStop(carteStop, cible)\n[cible == ce joueur]
+
+JE -left-> PE  : joueurCourantPiocheUneCarte() ou\njoueurCourantCible3aLaSuite(...)\n[doublon sans Carte2ndeChance]
+
+' ─── fin de manche : remise à zéro ────────────────────────────
+ST -up-> JE : nouvelleManche()
+PE -up-> JE : nouvelleManche()
+
+@enduml

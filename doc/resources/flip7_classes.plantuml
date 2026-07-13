@@ -1,0 +1,205 @@
+@startuml flip7_classes
+hide circle
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+hide empty members
+
+' ─────────────────────────────────────────────
+'  Package états
+' ─────────────────────────────────────────────
+package "etats" {
+
+    class EtatJoueur <<enum>> {
+        + JOUE_ENCORE
+        + STOP
+        + PERDU
+    }
+
+    class EtatPartie <<enum>> {
+        + ATTENTE_CHOIX_JOUEUR
+        + ATTENTE_CIBLE_STOP
+        + ATTENTE_CIBLE_3SUITE
+        + MANCHE_TERMINEE
+        + NOUVELLE_MANCHE
+        + PARTIE_TERMINEE
+    }
+
+    EtatPartie -[hidden]- EtatJoueur
+}
+
+' ─────────────────────────────────────────────
+'  Package exceptions
+' ─────────────────────────────────────────────
+package "exceptions" {
+
+    class PiocheInvalideException {
+        + message: String
+    }
+    class MainInvalideException {
+        + message: String
+    }
+    class NombreJoueursInvalideException {
+        + message: String
+    }
+    class ListeJoueursInvalideException {
+        + message: String
+    }
+    class ScoreFinPartieInvalideException {
+        + message: String
+    }
+    class EtatPartieInvalideException {
+        + message: String
+    }
+    class JoueurNonActifException {
+        + message: String
+    }
+    class CarteInvalideException {
+        + message: String
+    }
+}
+
+
+class IJoueur <<interface>> {
+    + donneNom(): String
+}
+
+' ─────────────────────────────────────────────
+'  Package cartes
+' ─────────────────────────────────────────────
+package "cartes" {
+
+     class Carte <<abstract>> {
+        + valeur: Int {readOnly}
+        + <<create>> Carte(valeur:Int)
+        + estCarteNum(): Boolean
+        + estCarteBonusPlus(): Boolean
+        + estCarteBonusMultiplie(): Boolean
+        + estCarteStop(): Boolean
+        + estCarte2ndeChance(): Boolean
+        + estCarte3aLaSuite(): Boolean
+        + compareTo(other: Carte): Int
+    }
+
+    class CarteNum {
+        + <<create>> CarteNum(valeur: {0..12})
+        + estCarteNum(): Boolean
+        + equals(other: Any?): Boolean
+        + toString(): String
+    }
+
+    abstract class CarteBonus <<abstract>> {
+    }
+
+    class CarteBonusPlus {
+        + <<create>> CarteBonusPlus(valeur: {2,4,6,8,10})
+        + estCarteBonusPlus(): Boolean
+        + equals(other: Any?): Boolean
+        + toString(): String
+    }
+
+    class CarteBonusMultiplie {
+        + <<create>> CarteBonusMultiplie()
+        + estCarteBonusMultiplie(): Boolean
+        + equals(other: Any?): Boolean
+        + toString(): String
+    }
+
+    abstract class CarteSpeciale <<abstract>> {
+    }
+
+    class CarteStop {
+        + <<create>> CarteStop()
+        + estCarteStop(): Boolean
+        + equals(other: Any?): Boolean
+        + toString(): String
+    }
+
+    class Carte2ndeChance {
+        + <<create>> Carte2ndeChance()
+        + estCarte2ndeChance(): Boolean
+        + equals(other: Any?): Boolean
+        + toString(): String
+    }
+
+    class Carte3aLaSuite {
+        + <<create>> Carte3aLaSuite()
+        + estCarte3aLaSuite(): Boolean
+        + equals(other: Any?): Boolean
+        + toString(): String
+    }
+
+    Carte <|-- CarteNum
+    Carte <|-- CarteBonus
+    Carte <|-- CarteSpeciale
+    CarteBonus <|-- CarteBonusPlus
+    CarteBonus <|-- CarteBonusMultiplie
+    CarteSpeciale <|-- CarteStop
+    CarteSpeciale <|-- Carte2ndeChance
+    CarteSpeciale <|-- Carte3aLaSuite
+
+    class IOutilsCarte <<interface>> {
+        + verifiePiocheInitiale(unePioche: List<Carte>)
+        + verifieMainCorrecte(main: List<Carte>)
+        + calculScore(main: List<Carte>): Int
+        + estFlip7(main: List<Carte>): Boolean
+    }
+
+    class OutilsCarte {
+        + <<create>> OutilsCarte()
+        + verifiePiocheInitiale(unePioche: List<Carte>)
+        + verifieMainCorrecte(main: List<Carte>)
+        + calculScore(main: List<Carte>): Int
+        + estFlip7(main: List<Carte>): Boolean
+    }
+
+    IOutilsCarte <|.. OutilsCarte : << realizes >>
+    Carte -[hidden]- IOutilsCarte
+}
+
+OutilsCarte ..> PiocheInvalideException     : << throws >>
+OutilsCarte ..> MainInvalideException       : << throws >>
+
+class Flip7 {
+    + nbJoueurs: Int         {readOnly}
+    + debug: Boolean         {readOnly}
+    + scoreFinPartie: Int    {readOnly}
+    + joueurCourant: Int     {readOnly}
+    + taillePioche: Int      {readOnly}
+    + score: Map<Int, Int>   {readOnly}
+    + <<create>> Flip7(\n\tnbJoueurs : Int,\n\tjoueurs : List<IJoueur>,\n\tcartes : List<Carte>,\n\tdebug : Boolean = false,\n\tscoreFinPartie: Int = 200,\n\toutilsCarte: IOutilsCarte = OutilsCarte()\n)
+    + joueurCourantPiocheUneCarte(): Carte
+    + joueurCourantCibleStop(carteStop: Carte, nbJoueurCible: Int)
+    + joueurCourantCible3aLaSuite(carte3aLaSuite: Carte, nbJoueurCible: Int): \n\t\t List<Carte>
+    + joueurCourantDitStop()
+    + scoreManche(): Map<Int, Int>
+    + nouvelleManche()
+}
+
+Flip7 "*" --> "+joueurs:List<IJoueur>\n               {readOnly}\n                         2..4" IJoueur : fait jouer
+
+Flip7 "*" --> "                            *\n+defausse:List<Carte>\n                {readOnly}" Carte::valeur : défausse ici
+
+Flip7 "*" -right-> "                                       *\n+main:Map<Int,List<Carte>>\n                          {readOnly}" Carte::compareTo : constitue les mains
+
+Flip7 "*" -> "1\n+etatPartie\n       {readOnly}" EtatPartie : est dans l'état
+
+Flip7 "*" -> "+etatJoueur:Map<Int,EtatJoueur>\n                        {readOnly}\n                                               *" EtatJoueur : place le joueur dans
+
+Flip7 "*" --> "+outilsCarte\n{readOnly}\n         1" IOutilsCarte : utilise
+
+
+    '
+    '
+    '
+    '
+    '
+
+
+Flip7 ..> NombreJoueursInvalideException    : << throws >>
+Flip7 ..> ListeJoueursInvalideException     : << throws >>
+Flip7 ..> ScoreFinPartieInvalideException   : << throws >>
+Flip7 ..> EtatPartieInvalideException       : << throws >>
+Flip7 ..> JoueurNonActifException           : << throws >>
+Flip7 ..> CarteInvalideException            : << throws >>
+
+@enduml

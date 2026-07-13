@@ -1,0 +1,27 @@
+[
+    {
+        "nom": "Noé",
+        "nb1erePlace": 1,
+        "nbParties": 5
+    },
+    {
+        "nom": "Kevin",
+        "nb1erePlace": 3,
+        "nbParties": 9
+    },
+    {
+        "nom": "Léo",
+        "nb1erePlace": 6,
+        "nbParties": 14
+    },
+    {
+        "nom": "Arthur",
+        "nb1erePlace": 2,
+        "nbParties": 7
+    },
+    {
+        "nom": "Kris",
+        "nb1erePlace": 9,
+        "nbParties": 18
+    }
+]

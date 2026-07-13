@@ -1,0 +1,61 @@
+@startuml
+
+package Flip7{
+    class GameManager
+
+    enum Etat{
+        CHARGEMENT
+        JEU
+        MENU
+    }
+
+    class Player{
+        - pseudo : String
+        - points : Int
+    }
+
+    class Pioche
+    class Defausse
+
+    interface Carte
+
+    class CarteChiffre {
+        - valeur : Int
+    }
+
+    class CarteBonus{
+        - valeur : Int
+        - operation
+    }
+
+    interface CarteSpeciale
+    
+    class CarteStop
+    class CarteSecondeChance
+    class CarteTroisALaSuite
+
+    CarteChiffre --|> Carte
+    CarteBonus --|> Carte
+    CarteSpeciale --|> Carte
+
+    CarteStop --|> CarteSpeciale
+    CarteSecondeChance --|> CarteSpeciale
+    CarteTroisALaSuite --|> CarteSpeciale
+
+    Pioche "0..1" --> "0..94 -cartes" Carte : contient
+    Defausse "0..1" --> "0..94 -cartes" Carte : contient
+
+    Player "0..1" --> "0..7 -cartesChiffre" CarteChiffre : possède
+    Player "0..1" --> "0..6 -cartesBonus" CarteBonus : possède
+
+    Player "0..1" --> "0..3 -cartesStop" CarteStop : possède
+    Player "0..1" --> "0..3 -cartesSecondeChance" CarteSecondeChance : possède
+    Player "0..1" --> "0..3 -cartesTroisALaSuite" CarteTroisALaSuite : possède
+
+    GameManager "1" --> "3..18 -players" Player : possède
+    GameManager "1" --> "1 -etat" Etat :est_en
+    GameManager "1" --> "1 -pioche" Pioche : possède
+    GameManager "1" --> "1 -defausse" Defausse : possède
+}
+
+@enduml

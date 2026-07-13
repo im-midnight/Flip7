@@ -1,0 +1,198 @@
+@font-face {
+    font-family: 'Excalifont';
+    src: url('/font/Excalifont-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'LilitaOne';
+    src: url('/font/LilitaOne-Regular.ttf');
+}
+
+.button .text {
+    -fx-font-family: 'Excalifont'
+}
+
+.label {
+    -fx-font-family: 'Excalifont';
+    -fx-font-size: 22px;
+}
+
+.button.change-font-lilitaone .text {
+    -fx-font-family: 'Lilita One';
+}
+
+.label.change-font-lilitaone .text {
+    -fx-font-family: 'Lilita One';
+}
+
+.combo-box{
+    -fx-font-size: 20px;
+}
+
+
+.red {
+    -fx-text-fill: red;
+}
+
+.green {
+    -fx-text-fill: green;
+}
+
+.blue {
+    -fx-text-fill: #1971c2;
+}
+
+.orange {
+    -fx-text-fill: orange;
+}
+
+.grand-bouton {
+    -fx-font-size: 25px;
+}
+.flip7{
+    -fx-font-size: 30px;
+    -fx-text-fill: #1971c2;
+}
+
+.bouton-popUp{
+    -fx-background-color: #1e1e1e;
+    -fx-border-color: black;
+    -fx-border-width: 3;
+    -fx-border-style: solid;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-text-fill: white;
+}
+
+
+.titreChoixJoueur {
+    -fx-font-size: 50px;
+
+}
+
+.transparent {
+    -fx-background-color: transparent;
+}
+
+.bold{
+    -fx-font-weight: bold;
+}
+
+.fontSizeNormal{
+    -fx-font-size: 18px;
+}
+
+.titreManche {
+    -fx-font-weight: bold; -fx-font-size: 20px;
+}
+
+.box-solid {
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-insets: 5;
+    -fx-border-width: 3;
+    -fx-border-style: solid;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+}
+
+.vbox-podium{
+    -fx-background-color: transparent;
+    -fx-border-color: black;
+    -fx-border-width: 3;
+    -fx-border-style: solid;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+}
+
+.vbox-podium1{
+    -fx-background-color: #ffec99;
+    -fx-border-color: black;
+    -fx-border-width: 3;
+    -fx-border-style: solid;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+
+}
+.vbox-joueur {
+    -fx-font-size: 20px;
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-width: 3;
+    -fx-border-style: solid;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-padding: 10;
+}
+
+.vbox-joueur-selectionner {
+    -fx-font-size: 20px;
+    -fx-background-color: #18a4d3;
+    -fx-border-color: black;
+    -fx-border-width: 3;
+    -fx-border-style: solid;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-padding: 10;
+}
+
+.vbox-joueur-perdu {
+    -fx-font-size: 20px;
+    -fx-background-color: #ff7070;
+    -fx-border-color: #ff2626;
+    -fx-border-width: 3;
+    -fx-border-style: solid;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-padding: 10;
+}
+
+.vbox-joueur-stopper {
+    -fx-font-size: 20px;
+    -fx-background-color: #ffb870;
+    -fx-border-color: #ffb826;
+    -fx-border-width: 3;
+    -fx-border-style: solid;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-padding: 10;
+}
+
+.image{
+    -fx-font-size: 20px;
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-width: 3;
+    -fx-border-style: solid;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-padding: 10;
+}
+
+.img {
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-width: 3;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-padding: 5;
+}
+
+
+
+.slider .track {
+    -fx-background-color: #dcdcdc;
+    -fx-background-radius: 5px;
+}
+
+
+.slider .thumb {
+    -fx-background-color: #1e1e1e;
+    -fx-background-radius: 50%;
+    -fx-pref-width: 20px;
+    -fx-pref-height: 20px;
+}
+
+.slider .thumb:hover {
+    -fx-background-color: #b2f2bb;
+}

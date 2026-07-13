@@ -1,0 +1,121 @@
+ @startuml
+
+package Flip7{
+    class GameManager{
+<<<<<<< HEAD:livrables/uml/conception-detaille.puml
+        + <<create>> GameManager(etatJeu : EtatJeu = MENU)
+=======
+        + <<create>> GameManager(etatJeu : EtatJeu = EtatJeu.MENU)
+>>>>>>> 43ed033c7e9565f2061e8bea1aade84295b0365a:livrables/uml/detaille.puml
+        + play(pointsMax : Int = 200) : Player
+        + manche()
+        + playerTurn(playerCourant : Player) : EtatJoueur
+        + ajouterPlayer(pseudo : String) : Player
+    }
+
+    enum EtatJeu <<enum>> {
+        CHARGEMENT
+        JEU
+        MENU
+    }
+
+    enum EtatJoueur <<enum>> {
+        HORS_JEU
+        EN_JEU
+    }
+
+    class Player{
+        + <<create>> Player(pseudo : string)
+        - pseudo : String
+        - points : Int = 0
+        + recupererPoints(points : Int)
+    }
+
+    class Pioche{
+        + <<create>> Pioche()
+        + melanger()
+        + piocher() : Carte
+        + nombreCarte() : Int
+        + remplirPioche(cartes: List<Carte>)
+        + estVidePioche() : Boolean
+    }
+
+    class Defausse{
+        + <<create>> Defausse()
+        + defausser(carte: Carte)
+        + nombreCarte() : Int
+        + videDefausse() : List<Carte>
+    }
+
+    class Deck{
+        + <<create>> Deck()
+        + recupererCarte(carte: Carte)
+        + defausserCarte(carte: Carte, defausse : Defausse)
+        + defausserToutesCartes(defausse: Defausse)
+        + calculerPoints() : Int
+    }
+
+package Cartes{
+    interface Carte <<interface>>
+    note left of Carte
+        MutableList<Carte> pour le Deck
+    end note
+
+    class CarteChiffre {
+        + <<create>> CarteChiffre(valeur : Int)
+        + valeur : Int
+    }
+
+    class CarteBonus{
+        + <<create>> CarteBonus(valeur : Int, operation : Operation)
+        + valeur : Int
+    }
+
+    enum Operation <<enum>> {
+        ADDITION
+        MULTIPLICATION
+    }
+
+    interface CarteSpeciale <<interface>> {
+        + utiliser(gameManager : GameManager)
+    }
+
+    class CarteStop{
+        + <<create>> CarteStop()
+    }
+
+    class CarteSecondeChance{
+        + <<create>> CarteSecondeChance()
+    }
+
+    class CarteTroisALaSuite{
+        + <<create>> CarteTroisALaSuite()
+    }
+}
+
+    CarteChiffre --|> Carte
+    CarteBonus --|> Carte
+    CarteSpeciale --|> Carte
+
+    CarteBonus "6" --> "1 -operation" Operation : contient
+
+    CarteStop --|> CarteSpeciale
+    CarteSecondeChance --|> CarteSpeciale
+    CarteTroisALaSuite --|> CarteSpeciale
+
+    Pioche "0..1" --> "0..94 -cartes" Carte : contient
+    Defausse "0..1" --> "0..94 -cartes" Carte : contient
+
+    Player "1" --> "1 -deck" Deck : possède
+    Player "1" --> "1 -etatJoueur" EtatJoueur : est_en
+
+    Deck "0..1" --> "0..* -cartes" Carte : contient
+
+    GameManager "1" --> "0..18 -players" Player : possède
+    GameManager "1" --> "0..18 -activePlayers" Player : possède
+    GameManager "1" --> "1 -etatJeu" EtatJeu : est_en
+    GameManager "1" --> "1 -pioche" Pioche : possède
+    GameManager "1" --> "1 -defausse" Defausse : possède
+}
+
+@enduml

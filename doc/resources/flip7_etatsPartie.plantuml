@@ -1,0 +1,62 @@
+@startuml flip7_etatsPartie
+skinparam state {
+    BackgroundColor lightyellow
+    BorderColor black
+    ArrowColor #444
+    FontSize 13
+}
+skinparam note {
+    BackgroundColor #ffffcc
+    BorderColor #aaa
+}
+
+state "ATTENTE_CHOIX_JOUEUR \n "   as AJ :\n \n \n
+
+[*] -down-> AJ : new Flip7(...)
+
+
+state "ATTENTE_CIBLE_STOP"     as ACS
+state "ATTENTE_CIBLE_3SUITE"   as AC3
+state "MANCHE_TERMINEE"        as MT
+state "NOUVELLE_MANCHE"        as NM
+state "PARTIE_TERMINEE"        as PT
+
+' ─── depuis ATTENTE_CHOIX_JOUEUR ───────────────────────────
+AJ -[node]-> AJ  : joueurCourantDitStop()\n[joueur suivant existe]
+
+AJ -[node]-> AJ  : joueurCourantPiocheUneCarte()\n[carte normale ||\ndoublon sauvé (Carte2ndeChance)||\ndoublon perdu\n => joueur suivant existe]
+
+AJ -[node]-> ACS : joueurCourantPiocheUneCarte()\n[CarteStop piochée]
+
+AJ -[node]-> AC3 : joueurCourantPiocheUneCarte()\n[Carte3aLaSuite piochée]
+
+AJ -[node]-> MT  : joueurCourantPiocheUneCarte()\n[Flip7 réalisé]
+
+AJ -[node]-> MT  : joueurCourantPiocheUneCarte()\n[plus aucun joueur actif après résolution]
+
+AJ -[node]-> MT  : joueurCourantDitStop()\n[plus aucun joueur actif]
+
+' ─── depuis ATTENTE_CIBLE_STOP ─────────────────────────────
+ACS -[node]-> AJ : joueurCourantCibleStop(cible)\n[joueur suivant existe]
+
+ACS -[node]-> MT : joueurCourantCibleStop(cible)\n[plus aucun joueur actif]
+
+' ─── depuis ATTENTE_CIBLE_3SUITE ───────────────────────────
+AC3 -[node]-> AJ : joueurCourantCible3aLaSuite(cible)\n[joueur suivant existe]
+
+AC3 -[node]-> MT : joueurCourantCible3aLaSuite(cible)\n[plus aucun joueur actif]
+
+' ─── depuis MANCHE_TERMINEE ────────────────────────────────
+MT -[node]-> NM : scoreManche()\n[aucun joueur ≥ scoreFinPartie]
+
+MT -[node]-> PT : scoreManche()\n[au moins un joueur ≥ scoreFinPartie]
+
+' ─── depuis NOUVELLE_MANCHE ────────────────────────────────
+NM -[node]-> AJ : nouvelleManche()
+
+' ─── état final ─────────────────────────────────────────────
+PT --> [*]
+
+
+
+@enduml
