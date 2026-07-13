@@ -10,7 +10,7 @@
 
 **Equipe-34** : Arthur Sillard, Kevin Phomasone, Noé Kerloch, Kris Fouda, Léo Guillez
 
-## Télécharger le jeu -> à terminer
+## Télécharger le jeu ->
 
 ### En téléchargant le fichier zip (plus simple)
 
