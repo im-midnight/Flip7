@@ -154,3 +154,7 @@ Puis lancer la compilation et l'exécution via gradle :
 ```shell
 ./gradlew run
 ```
+Depuis un IDE
+
+Lancer le ficher '''Main.kt'''
+
